@@ -6,6 +6,7 @@ import android.media.SoundPool;
 import android.os.SystemClock;
 
 import com.zht.examination.R;
+import com.zht.examination.utils.ContextApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +28,7 @@ public class Reader {
     private boolean isConnect = false;
     static HashMap<Integer, Integer> soundMap = new HashMap<>();
 
-    //TODO
-    Context context;
+    Context context = ContextApplication.getAppContext();
 
     private static Reader instance;
 
