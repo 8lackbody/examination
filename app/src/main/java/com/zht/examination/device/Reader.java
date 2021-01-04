@@ -30,6 +30,8 @@ public class Reader {
 
     Context context = ContextApplication.getAppContext();
 
+    public List<ReadTag> mlist;
+
     private static Reader instance;
 
     private Reader() {
@@ -127,7 +129,7 @@ public class Reader {
                             Target = 0;
                             NoCardCOunt = 0;
                         }
-                        List<ReadTag> mlist = new ArrayList<>();
+                        mlist = new ArrayList<>();
                         baseReader.Inventory_G2(param.ComAddr, (byte) param.QValue, (byte) param.Session, (byte) param.TidPtr, (byte) param.TidLen, Target, Ant, (byte) 10, mlist);
                         if (mlist.size() == 0) {
                             isSound = false;
@@ -140,7 +142,6 @@ public class Reader {
                             }
                         } else {
                             NoCardCOunt = 0;
-                            //TODO
                             onProgress(mlist);
                             isSound = false;
                         }
@@ -163,6 +164,7 @@ public class Reader {
     public void setPower(int Power) {
         baseReader.SetRfPower(param.ComAddr, (byte) Power);
     }
+
 
     protected void onProgress(List<ReadTag> mlist) {
         System.out.println(mlist);

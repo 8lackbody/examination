@@ -48,7 +48,8 @@ public class AllAdapter extends BaseAdapter {
         if (view == null) {
             iv = new ItemView();
             view = layoutInflater.inflate(R.layout.list_all, null);
-            iv.tvId = (TextView) view.findViewById(R.id.id_text);
+            iv.tvId = (TextView) view.findViewById(R.id
+                    .id_text);
             iv.tvEpc = (TextView) view.findViewById(R.id.epc_text);
             view.setTag(iv);
         } else {

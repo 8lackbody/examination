@@ -1,5 +1,6 @@
 package com.zht.examination.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -80,12 +81,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.examination_button:
                 //TODO
+                intent = new Intent().setClass(MainActivity.this, AllActivity.class);
+                startActivity(intent);
                 break;
             case R.id.select_button:
                 //TODO
+                intent = new Intent().setClass(MainActivity.this, OneActivity.class);
+                startActivity(intent);
                 break;
         }
     }
