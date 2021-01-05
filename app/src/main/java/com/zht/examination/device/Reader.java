@@ -30,7 +30,8 @@ public class Reader {
 
     Context context = ContextApplication.getAppContext();
 
-    public List<ReadTag> mlist;
+    private List<ReadTag> mlist;
+    private HashMap<String, Integer> uiData;
 
     private static Reader instance;
 
@@ -168,6 +169,16 @@ public class Reader {
 
     protected void onProgress(List<ReadTag> mlist) {
         System.out.println(mlist);
+        for (int p = 0; p < mlist.size(); p++) {
+            ReadTag arg0 = mlist.get(p);
+            String epc = arg0.epcId.toUpperCase();
+            Integer times = uiData.get(epc);
+            if (times == null) {
+                uiData.put(epc, 1);
+            } else {
+                uiData.put(epc, times + 1);
+            }
+        }
     }
 
 }
