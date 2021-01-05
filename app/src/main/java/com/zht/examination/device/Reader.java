@@ -168,6 +168,7 @@ public class Reader {
 
 
     protected void onProgress(List<ReadTag> mlist) {
+        int a= 2;
         System.out.println(mlist);
         for (int p = 0; p < mlist.size(); p++) {
             ReadTag arg0 = mlist.get(p);
