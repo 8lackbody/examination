@@ -1,5 +1,6 @@
 package com.zht.examination.device;
 
+import android.device.serial.SerialPort;
 import android.util.Log;
 
 import java.io.IOException;

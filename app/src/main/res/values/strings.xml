@@ -5,6 +5,8 @@
     <drawable name="list_normal">#00000000</drawable>
     <drawable name="list_pressed">#FF333333</drawable>
     <string name="app_name">档案盘查系统</string>
+    <string name="title_activity_all">盘库</string>
+    <string name="title_activity_one">查找</string>
     <string name="menu_settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

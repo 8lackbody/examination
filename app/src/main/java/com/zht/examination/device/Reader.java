@@ -3,6 +3,7 @@ package com.zht.examination.device;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Handler;
 import android.os.SystemClock;
 
 import com.zht.examination.R;
@@ -10,6 +11,7 @@ import com.zht.examination.utils.ContextApplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class Reader {
@@ -29,9 +31,8 @@ public class Reader {
     static HashMap<Integer, Integer> soundMap = new HashMap<>();
 
     Context context = ContextApplication.getAppContext();
-
     private List<ReadTag> mlist;
-    private HashMap<String, Integer> uiData;
+    private HashSet<ReadTag> data;
 
     private static Reader instance;
 
@@ -43,6 +44,7 @@ public class Reader {
         param.TidLen = 0;
         param.TidPtr = 0;
         param.Antenna = 0x80;
+        data = new HashSet<>();
 
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 5);
         soundMap.put(1, soundPool.load(context, R.raw.barcodebeep, 1));
@@ -117,7 +119,7 @@ public class Reader {
         return isConnect;
     }
 
-    public void startRead() {
+    public void startRead(final Handler handler) {
         if (mThread == null) {
             mWorking = true;
             mThread = new Thread(new Runnable() {
@@ -125,6 +127,7 @@ public class Reader {
                 public void run() {
                     byte Target = 0;
                     while (mWorking) {
+                        int index = data.size();
                         byte Ant = (byte) 0x80;
                         if ((param.Session == 0) || (param.Session == 1)) {
                             Target = 0;
@@ -143,8 +146,14 @@ public class Reader {
                             }
                         } else {
                             NoCardCOunt = 0;
-                            onProgress(mlist);
+                            for (int p = 0; p < mlist.size(); p++) {
+                                ReadTag arg0 = mlist.get(p);
+                                data.add(arg0);
+                            }
                             isSound = false;
+                        }
+                        if (data.size() > index) {
+                            handler.sendEmptyMessage(1);
                         }
                     }
                     isSound = false;
@@ -159,6 +168,8 @@ public class Reader {
             isSound = false;
             mWorking = false;
             mThread = null;
+            mlist.clear();
+            data.clear();
         }
     }
 
@@ -166,20 +177,11 @@ public class Reader {
         baseReader.SetRfPower(param.ComAddr, (byte) Power);
     }
 
-
-    protected void onProgress(List<ReadTag> mlist) {
-        int a= 2;
-        System.out.println(mlist);
-        for (int p = 0; p < mlist.size(); p++) {
-            ReadTag arg0 = mlist.get(p);
-            String epc = arg0.epcId.toUpperCase();
-            Integer times = uiData.get(epc);
-            if (times == null) {
-                uiData.put(epc, 1);
-            } else {
-                uiData.put(epc, times + 1);
-            }
-        }
+    public HashSet<ReadTag> getData() {
+        return data;
     }
 
+    public void setData(HashSet<ReadTag> data) {
+        this.data = data;
+    }
 }

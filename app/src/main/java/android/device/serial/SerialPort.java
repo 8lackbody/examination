@@ -1,4 +1,4 @@
-package com.zht.examination.device;
+package android.device.serial;
 
 import android.os.Build;
 import android.util.Log;

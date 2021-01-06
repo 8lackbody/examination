@@ -26,23 +26,4 @@
 		android:gravity="center"
 		android:singleLine="false" />
 
-	<!--原来会显示RSSI和扫描到的次数-->
-	<!--<TextView
-		android:id="@+id/times_text"
-		android:layout_width="60dp"
-		android:layout_weight="1"
-		android:layout_height="wrap_content"
-		android:textColor="#ff333333"
-		android:gravity="center"
-		android:singleLine="true" />
-
-
-	<TextView
-		android:id="@+id/rssi_text"
-		android:layout_width="60dp"
-		android:layout_weight="1"
-		android:layout_height="wrap_content"
-		android:textColor="#ff333333"
-		android:gravity="center"
-		android:singleLine="true" />-->
 </LinearLayout>
