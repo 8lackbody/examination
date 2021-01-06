@@ -3,10 +3,13 @@ package com.zht.examination.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.KeyListener;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,6 +20,7 @@ import com.zht.examination.R;
 import com.zht.examination.adapter.AllAdapter;
 import com.zht.examination.device.ReadTag;
 import com.zht.examination.device.Reader;
+import com.zht.examination.utils.NumUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +31,9 @@ import java.util.List;
 public class AllActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText startEpc;
+    Integer startNum;
     EditText endEpc;
+    Integer endNum;
     TextView selectNumber;
     RecyclerView recyclerView;
     Button startOrStop;
@@ -53,7 +59,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
                 switch (msg.what) {
                     case 1:
                         dealWithSet();
-                        selectNumber.setText(""+listData.size());
+                        selectNumber.setText("" + listData.size());
                         allAdapter.setList(listData);
                         allAdapter.notifyDataSetChanged();
                         break;
@@ -104,12 +110,29 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
 
     void init() {
         startEpc = findViewById(R.id.editText_select);
+
         endEpc = findViewById(R.id.editText_endId);
         selectNumber = findViewById(R.id.tx_num);
         recyclerView = findViewById(R.id.list);
         startOrStop = findViewById(R.id.startOrStop);
         submit = findViewById(R.id.submit);
         empty = findViewById(R.id.empty);
+        KeyListener listener = new NumberKeyListener() {
+            @Override
+            protected char[] getAcceptedChars() {
+                char[] chars = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+                return chars;
+            }
+
+            @Override
+            public int getInputType() {
+                return 3;
+            }
+        };
+        startEpc.setKeyListener(listener);
+        endEpc.setKeyListener(listener);
+        startEpc.setHorizontallyScrolling(true);
+        endEpc.setHorizontallyScrolling(true);
 
         //加载表格
         listData = new ArrayList<>();
@@ -118,7 +141,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         manager.setOrientation(GridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(allAdapter);
-        selectNumber.setText(""+listData.size());
+        selectNumber.setText("" + listData.size());
         startOrStop.setOnClickListener(this);
         submit.setOnClickListener(this);
         empty.setOnClickListener(this);
@@ -131,8 +154,29 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         String s = startEpc.getText().toString();
         String e = endEpc.getText().toString();
 
-        //TODO 不为空，长度为12，为纯数字，两个字符前六位相同
-
+        // 不为空，长度为12，为纯数字，两个字符前六位相同
+        if (s == null || e == null || e.isEmpty() || s.isEmpty()) {
+            Toast.makeText(this, "标签号为空！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (s.length() != 12 || e.length() != 12) {
+            Toast.makeText(this, "标签号长度不对！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!(NumUtil.isNumeric(s) && NumUtil.isNumeric(e))) {
+            Toast.makeText(this, "标签号格式错误！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!(s.substring(0,6).equals(e.substring(0,6)))) {
+            Toast.makeText(this, "标签号不匹配！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        startNum = Integer.valueOf(s.substring(6));
+        endNum = Integer.valueOf(e.substring(6));
+        if (startNum >= endNum) {
+            Toast.makeText(this, "搜索范围错误！", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -142,10 +186,16 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
     public void dealWithSet() {
         HashSet<ReadTag> data = reader.getData();
         for (ReadTag datum : data) {
+            //是否已经包含在list内
             boolean contains = listData.contains(datum);
-            //TODO 这个true需要改成范围检测
-            reader.isSound = true;
-            if (true && !contains) {
+            //是不是在查找的标签中
+            boolean falg = false;
+            Integer epc = Integer.valueOf(datum.getEpcId().substring(6));
+            if(epc>= startNum && epc<= endNum){
+                falg = true;
+                reader.isSound = true;
+            }
+            if (falg && !contains) {
                 listData.add(datum);
             }
         }
@@ -156,6 +206,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-
     }
+
+
 }
