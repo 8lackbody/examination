@@ -1,5 +1,6 @@
 package com.zht.examination.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +32,7 @@ public class OneActivity extends AppCompatActivity implements View.OnClickListen
 
     Reader reader = Reader.getInstance();
     private Handler mHandler;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,8 @@ public class OneActivity extends AppCompatActivity implements View.OnClickListen
     void init() {
         selectEpc = findViewById(R.id.editText_select);
         selectEpc.setHorizontallyScrolling(true);
+        preferences = getSharedPreferences("set", 0);
+
         KeyListener listener = new NumberKeyListener() {
             @Override
             protected char[] getAcceptedChars() {

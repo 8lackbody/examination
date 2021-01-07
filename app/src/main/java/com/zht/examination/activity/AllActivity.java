@@ -1,5 +1,6 @@
 package com.zht.examination.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,6 +45,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
     Reader reader = Reader.getInstance();
     List<ReadTag> listData;
     private Handler mHandler;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,8 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         startOrStop = findViewById(R.id.startOrStop);
         submit = findViewById(R.id.submit);
         empty = findViewById(R.id.empty);
+        preferences = getSharedPreferences("set", 0);
+
         KeyListener listener = new NumberKeyListener() {
             @Override
             protected char[] getAcceptedChars() {

@@ -1,6 +1,7 @@
 package com.zht.examination.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Reader reader;
     //手机是否成功连接驱动
     private boolean canGo = false;
+    SharedPreferences preferences;
 
 
     @Override
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         goOne.setOnClickListener(this);
         goAll = findViewById(R.id.examination_button);
         goAll.setOnClickListener(this);
+        preferences = getSharedPreferences("set", 0);
 
         OTGUtil.setOTGEnable(true);
         reader = Reader.getInstance();

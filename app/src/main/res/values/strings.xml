@@ -76,7 +76,7 @@
     <string name="power_error">功率设置失败</string>
     <string name="beep_error">蜂鸣器设置失败</string>
     <string name="frequent_error">频点设置失败</string>
-    <string name="test_connect">测试连接</string>
+    <string name="test_connect">保存</string>
     <string name="table_name1">已查找数据</string>
     <string name="table_name2">未查找数据</string>
     <string name="change_table_button">切换表格</string>
@@ -99,5 +99,6 @@
     <string name="length_content_warning">长度和内容不匹配！</string>
     <string name="str_lenght_odd_warning">每个数据的长度不能是奇数！</string>
     <string name="data_ilegal">数据非法！（空的或长度是奇数？）</string>
+    <string name="title_activity_set">SetActivity</string>
 
 </resources>
