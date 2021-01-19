@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            System.out.println("-------------------------------");
+            Intent intent = new Intent().setClass(this, SetActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -89,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.examination_button:
                 //TODO
-                intent = new Intent().setClass(MainActivity.this, AllActivity.class);
+                intent = new Intent().setClass(this, AllActivity.class);
                 startActivity(intent);
                 break;
             case R.id.select_button:
                 //TODO
-                intent = new Intent().setClass(MainActivity.this, OneActivity.class);
+                intent = new Intent().setClass(this, OneActivity.class);
                 startActivity(intent);
                 break;
         }

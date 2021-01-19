@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zht.examination.R;
 import com.zht.examination.adapter.AllAdapter;
 import com.zht.examination.device.ReadTag;
@@ -28,6 +29,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class AllActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -84,14 +91,14 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
                 return;
             }
             if (reader.isConnect()) {
-                if (startOrStop.getText().equals("开始")) {
+                if (startOrStop.getText().equals(R.string.start)) {
                     //设置扫描强度
                     reader.setPower(30);
                     reader.startRead(mHandler);
-                    startOrStop.setText("停止");
+                    startOrStop.setText(R.string.stop);
                 } else {
                     reader.stopRead();
-                    startOrStop.setText("开始");
+                    startOrStop.setText(R.string.start);
                 }
             }
         }
@@ -99,14 +106,14 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         /* 清空数据 */
         if (v.getId() == R.id.empty) {
             reader.stopRead();
-            startOrStop.setText("开始");
+            startOrStop.setText(R.string.start);
             listData.clear();
             mHandler.sendEmptyMessage(1);
         }
 
         /* 提交数据 */
         if (v.getId() == R.id.submit) {
-            //TODO 提交数据
+            sendRequestWithOkHttp();
         }
     }
 
@@ -171,7 +178,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
             Toast.makeText(this, "标签号格式错误！", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!(s.substring(0,6).equals(e.substring(0,6)))) {
+        if (!(s.substring(0, 6).equals(e.substring(0, 6)))) {
             Toast.makeText(this, "标签号不匹配！", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -195,7 +202,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
             //是不是在查找的标签中
             boolean falg = false;
             Integer epc = Integer.valueOf(datum.getEpcId().substring(6));
-            if(epc>= startNum && epc<= endNum){
+            if (epc >= startNum && epc <= endNum) {
                 falg = true;
                 reader.isSound = true;
             }
@@ -212,5 +219,46 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
+
+    private void sendRequestWithOkHttp() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = "http://" + preferences.getString("ip", "192.168.1.1") + ":8080/getAllInfo";
+                MediaType type = MediaType.parse("application/json;charset=utf-8");
+                RequestBody RequestBody2 = RequestBody.create(type, "" + listToJson(listData).toString());
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            // 指定访问的服务器地址
+                            .url(url).post(RequestBody2)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+
+                    //TODO data should be saved
+                    System.out.println(responseData);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private JSONObject listToJson(List<ReadTag> list) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("tagNumber", list.size());
+            json.put("beginStr", startNum);
+            json.put("endStr", endNum);
+            for (int i = 0; i < list.size(); i++) {
+                json.put(String.valueOf(i), list.get(i).getEpcId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 
 }

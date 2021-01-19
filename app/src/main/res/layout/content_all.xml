@@ -142,21 +142,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="submit" />
+            android:text="@string/submit" />
 
         <Button
             android:id="@+id/startOrStop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="start" />
+            android:text="@string/start" />
 
         <Button
             android:id="@+id/empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="empty" />
+            android:text="@string/empty" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

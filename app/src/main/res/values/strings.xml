@@ -101,4 +101,11 @@
     <string name="data_ilegal">数据非法！（空的或长度是奇数？）</string>
     <string name="title_activity_set">SetActivity</string>
 
+
+    <string name="submit">发送</string>
+    <string name="start">开始</string>
+    <string name="stop">开始</string>
+    <string name="empty">清空</string>
+    <string name="see">查看</string>
+
 </resources>
