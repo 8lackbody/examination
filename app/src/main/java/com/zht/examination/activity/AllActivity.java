@@ -1,5 +1,6 @@
 package com.zht.examination.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
     Button startOrStop;
     Button submit;
     Button empty;
+    Button showData;
     AllAdapter allAdapter;
 
     Reader reader = Reader.getInstance();
@@ -115,6 +117,18 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         if (v.getId() == R.id.submit) {
             sendRequestWithOkHttp();
         }
+
+        /* 查看提交结果 */
+        if (v.getId() == R.id.bt_show_data) {
+
+            //TODO 跳转页面 到一个表格 可以看那些没查到
+
+            Intent intent = new Intent().setClass(this, AllActivity.class);
+            intent.putExtra("","");
+            startActivity(intent);
+
+        }
+
     }
 
     void init() {
@@ -126,6 +140,8 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
         startOrStop = findViewById(R.id.startOrStop);
         submit = findViewById(R.id.submit);
         empty = findViewById(R.id.empty);
+        showData = findViewById(R.id.bt_show_data);
+
         preferences = getSharedPreferences("set", 0);
 
         KeyListener listener = new NumberKeyListener() {

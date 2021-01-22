@@ -104,8 +104,9 @@
 
     <string name="submit">发送</string>
     <string name="start">开始</string>
-    <string name="stop">开始</string>
+    <string name="stop">停止</string>
     <string name="empty">清空</string>
     <string name="see">查看</string>
+    <string name="title_activity_table">TableActivity</string>
 
 </resources>
