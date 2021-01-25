@@ -124,7 +124,6 @@ public class AllActivity extends AppCompatActivity implements View.OnClickListen
             //TODO 跳转页面 到一个表格 可以看那些没查到
 
             Intent intent = new Intent().setClass(this, AllActivity.class);
-            intent.putExtra("","");
             startActivity(intent);
 
         }
