@@ -4,29 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F0F0"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        tools:ignore="MissingConstraints"
+        android:background="@drawable/main_text_style_top"/>
+
+    <TextView
+        android:id="@+id/examination_text"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/mian_text_style_user"
+        android:gravity="center"
+        android:text="user"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="99dp" />
+
     <Button
         android:id="@+id/examination_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginRight="160dp"
-        android:text="盘库"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
+        android:background="@drawable/main_btn_style"
+        android:text="盘   库"
+        android:textColor="@color/white"
+        android:textSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/select_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginRight="160dp"
-        android:text="查找"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="428dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
+        android:background="@drawable/main_btn_style"
+        android:text="查    找"
+        android:textColor="@color/white"
+        android:textSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
